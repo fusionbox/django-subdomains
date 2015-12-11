@@ -164,7 +164,7 @@ class SubdomainURLRoutingTestCase(SubdomainTestMixin, TestCase):
             host = self.get_host_for_subdomain(subdomain)
             response = self.client.get('/example', HTTP_HOST=host)
             self.assertEqual(response.status_code, 301)
-            self.assertEqual(response['Location'], 'http://%s/example/' % host)
+            self.assertTrue(response['Location'].endswith('/example/'))
 
 
 class SubdomainURLReverseTestCase(SubdomainTestMixin, TestCase):

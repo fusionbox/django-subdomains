@@ -20,14 +20,21 @@ if not settings.configured:
     )
 
 
-from subdomains.tests.tests import *  # NOQA
 
 
 def run():
     import sys
 
     from django.test.utils import get_runner
+    try:
+        from django import setup
+    except ImportError:
+        # Django < 1.7
+        pass
+    else:
+        setup()
 
+    from subdomains.tests.tests import *  # NOQA
     runner = get_runner(settings)()
     failures = runner.run_tests(('subdomains',))
     sys.exit(failures)
